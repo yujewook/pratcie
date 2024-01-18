@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pratice.dao.MemberInfoMapper">
+    <select id="select" resultType="MemerInfoDto">
+        SELECT ID
+       		 , PWD
+       		 , NAME
+       		 , EMAIL
+       		 , BIRTH
+       		 , SNS 
+          FROM user_info
+         WHERE ID = CASE WHEN COALESCE(#{id},' ')= ' ' THEN ID
+         				 ELSE #{id}
+         			END
+    </select>
+
+    <select id="selectHis" resultType="MemerInfoDto">
+        SELECT COUNT(ID) AS ROWCNT
+          FROM user_info
+         WHERE ID = #{id}
+    </select>
+  
+    <insert id="memberinsert" parameterType="MemerInfoDto">
+    <![CDATA[
+    INSERT INTO user_info (ID, PWD, NAME, EMAIL, BIRTH, SNS, reg_date)
+    VALUES
+    (
+        #{id}
+      , #{pwd}
+      , #{name}
+      , #{email}
+      ,
+        ]]> 
+        <choose>
+            <when test="birth != null and birth != ''">
+                STR_TO_DATE(#{birth}, '%Y%m%d')
+            </when>
+            <otherwise>
+                NULL
+            </otherwise>
+        </choose>
+        ,
+        <choose>
+            <when test="sns != null and sns.size() > 0">
+                <foreach collection="sns" item="snsItem" separator=",">
+                    #{snsItem}
+                </foreach>
+            </when>
+            <otherwise>
+                NULL
+            </otherwise>
+        </choose>
+         <![CDATA[
+        , NOW()
+    )
+    ]]>
+       	
+    </insert>
+
+</mapper>
