@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pratice.dao.BoardMapper">
+    <select id="select" resultType="com.pratice.dto.BoardDto">
+        SELECT bno
+         	 , TITLE
+         	 , WRITER
+         	 , VIEW_cnt
+         	 , COMMENT_cnt
+         	 , REG_DATE
+         	 , UP_DATE
+          FROM BOARD
+         WHERE BNO =#{bno}
+    </select>
+	
+	<select id="countBoard" resultType="com.pratice.dto.BoardDto">
+        SELECT count(bno) AS BNO
+          FROM BOARD
+     </select>
+	
+	 <select id="boardList" resultType="com.pratice.dto.BoardDto">
+        SELECT bno
+         	 , TITLE
+         	 , WRITER
+         	 , VIEW_cnt
+         	 , COMMENT_cnt
+         	 , DATE_FORMAT(REG_DATE, '%Y%m%d') AS REG_DATE
+         	 , UP_DATE
+          FROM BOARD
+          ORDER BY bno
+         LIMIT #{offset}, #{pageSize}
+          
+    </select>
+
+
+</mapper>
