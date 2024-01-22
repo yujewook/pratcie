@@ -22,7 +22,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public String boardList ( Integer page , Integer pageSize , Model m) {
 		List <BoardDto> outDto = null;
-		if (page==null) page=1; 
+		if (page==null) page=0; 
 		if (pageSize==null) pageSize=10; 
 		
 		try {
@@ -50,7 +50,7 @@ public class BoardController {
 	
 	
 	@GetMapping("/select")
-	public String select(int bno, Model m) {
+	public String select(Integer bno, Integer page , Integer pageSize, Model m) {
 		bno=1;
 		BoardDto outDto = new BoardDto() ;
 		try {
@@ -60,8 +60,11 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		m.addAttribute("list", outDto);
+		m.addAttribute("page", page);
+		m.addAttribute("pageSize", pageSize);
 		System.out.println("조회 성공"+outDto.getTitle());
-		
-		return null;
+		System.out.println(outDto.getComment_cnt());
+		System.out.println(outDto.getContent());
+		return "board";
 	}
 }
