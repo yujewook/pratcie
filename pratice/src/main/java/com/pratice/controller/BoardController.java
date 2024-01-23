@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pratice.dto.BoardDto;
@@ -51,7 +52,6 @@ public class BoardController {
 	
 	@GetMapping("/select")
 	public String select(Integer bno, Integer page , Integer pageSize, Model m) {
-		bno=1;
 		BoardDto outDto = new BoardDto() ;
 		try {
 			outDto = boardService.select(bno);
@@ -67,4 +67,18 @@ public class BoardController {
 		System.out.println(outDto.getContent());
 		return "board";
 	}
+	
+	@PostMapping("/write")
+	public String write(BoardDto inDto, Model m) {
+		
+		try {
+			 boardService.CRUDBoard(inDto);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "board";
+	}
+	
 }
