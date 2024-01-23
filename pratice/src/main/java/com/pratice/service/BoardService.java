@@ -9,4 +9,5 @@ public interface BoardService {
 	public int count() throws Exception;
 	public List<BoardDto> boardList(PageHandler page) throws Exception;
 	public BoardDto select(int bno) throws Exception;
+	public String CRUDBoard (BoardDto indto) throws Exception;
 }
