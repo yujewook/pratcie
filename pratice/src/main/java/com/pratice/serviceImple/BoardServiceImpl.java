@@ -34,6 +34,22 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
+	@Override
+	public String CRUDBoard (BoardDto indto) throws Exception {
+		if(indto.getSts()=="I"|| indto.getSts()=="U" ) {
+			//writer를 찾아서 ... bno를 찔러 넣기도 생각 해보자.
+			if(indto.getBno() != null || indto.getSts()=="I" ) {
+				dao.insertBoard(indto);
+			}else {
+				dao.updateBoard(indto);
+			}
+		} else if (indto.getSts()=="D" ) {
+
+		}
+		return null;
+	}
+
+
 
 
 
