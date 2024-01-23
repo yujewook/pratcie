@@ -10,5 +10,6 @@ public interface BoardDao {
 	public List<BoardDto> boardList(PageHandler page) throws Exception;
 	public BoardDto select (int bno) throws Exception ;
 	public int countBoard() throws Exception;
-
+	public int insertBoard(BoardDto indto) throws Exception;
+	public int updateBoard(BoardDto indto) throws Exception;
 }

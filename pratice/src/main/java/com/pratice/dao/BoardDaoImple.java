@@ -30,8 +30,18 @@ public class BoardDaoImple implements BoardDao {
     public List <BoardDto> boardList (PageHandler page) throws Exception {
     	System.out.println("dao 페이지 :::: "+page.getPage());
     	System.out.println("dao 페이지 사이즈 :::: "+page.getPageSize());
+    	page.setOffset((page.getPage()) * page.getPageSize());
     	System.out.println("dao offset 사이즈 :::: "+page.getOffset());
-    	page.setOffset(page.getPage());
     	return session.selectList(namespace+"boardList", page );
     }
+
+	@Override
+	public int insertBoard(BoardDto indto) throws Exception {
+		return session.insert(namespace+"insertBoard", indto);
+	}
+
+	@Override
+	public int updateBoard(BoardDto indto) throws Exception {
+		return session.update(namespace+"updateBoard", indto);
+	}
 }
