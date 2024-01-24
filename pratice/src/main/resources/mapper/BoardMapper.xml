@@ -34,27 +34,31 @@
          LIMIT #{offset}, #{pageSize}
     </select>
     
-    <insert id="boardInsert" parameterType="com.pratice.dto.BoardDto">
-	    INSERT INTO BOARD
-	     	 (bno
-	     	 , TITLE
-	     	 , WRITER
-	     	 , VIEW_cnt
-	     	 , COMMENT_cnt
-	     	 , REG_DATE
-	     	 , UP_DATE)
-	    VALUES
-	    ( (SELECT COALESCE(MAX(bno), 0) + 1 FROM BOARD)
-	    , #{title}
-	    , #{writer}
-	    , 0
-	    , 0
-	    , NOW()
-	    , NOW())
+    <insert id="insertBoard" parameterType="com.pratice.dto.BoardDto">
+		INSERT INTO BOARD
+		( bno
+		, TITLE
+		, WRITER
+		, content
+		, VIEW_cnt
+		, COMMENT_cnt
+		, REG_DATE
+		, UP_DATE )
+		SELECT
+		  t.bno,
+		  #{title},
+		  #{writer},
+		  #{content},
+		  0,
+		  0,
+		  NOW(),
+		  NOW()
+		FROM
+		  (SELECT COALESCE(MAX(bno), 0) + 1 AS bno FROM BOARD) AS t
     </insert>
     
     
-    <update id="boardUpdate" parameterType="com.pratice.dto.BoardDto">
+    <update id="updateBoard" parameterType="com.pratice.dto.BoardDto">
     		UPDATE BOARD
     		   SET (TITLE = #{title}
         		 , WRITER = #{writer}
