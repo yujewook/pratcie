@@ -68,9 +68,16 @@ public class BoardController {
 		return "board";
 	}
 	
+	
+	@GetMapping("/write")
+	public String write(Integer bno, Integer page , Integer pageSize, Model m) {
+		return "board";
+	}
+	
+	
 	@PostMapping("/write")
 	public String write(BoardDto inDto, Model m) {
-		
+		System.out.println("컨트롤러"+inDto.getSts());
 		try {
 			 boardService.CRUDBoard(inDto);
 		} catch (Exception e) {
@@ -78,7 +85,7 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
-		return "board";
+		return "redirect:/board/list";
 	}
 	
 }
