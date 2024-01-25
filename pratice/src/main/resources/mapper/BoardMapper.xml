@@ -30,7 +30,7 @@
          	 , DATE_FORMAT(REG_DATE, '%Y%m%d') AS REG_DATE
          	 , UP_DATE
           FROM BOARD
-          ORDER BY bno
+          ORDER BY bno DESC
          LIMIT #{offset}, #{pageSize}
     </select>
     
@@ -60,10 +60,10 @@
     
     <update id="updateBoard" parameterType="com.pratice.dto.BoardDto">
     		UPDATE BOARD
-    		   SET (TITLE = #{title}
+    		   SET TITLE = #{title}
         		 , WRITER = #{writer}
         		 , content = #{content}
-        		 , UP_DATE = NOW())
+        		 , UP_DATE = NOW()
         	 WHERE BNO = #{bno}
     </update>
 
