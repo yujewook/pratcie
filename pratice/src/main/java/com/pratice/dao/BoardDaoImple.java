@@ -37,11 +37,14 @@ public class BoardDaoImple implements BoardDao {
 
 	@Override
 	public int insertBoard(BoardDto indto) throws Exception {
+		System.out.println("dao title" + indto.getTitle());
 		return session.insert(namespace+"insertBoard", indto);
 	}
 
 	@Override
 	public int updateBoard(BoardDto indto) throws Exception {
+		System.out.println("dao sts" + indto.getSts());
+		System.out.println("dao bno" + indto.getBno());
 		return session.update(namespace+"updateBoard", indto);
 	}
 }
