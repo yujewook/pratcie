@@ -1,7 +1,29 @@
 package com.pratice.dto;
 
 public class BoardDto {
- public Integer getBno() {
+	private Integer  bno;
+	private String  title;
+	private String  writer;
+	private int view_cnt ;
+	private int comment_cnt;
+	private String reg_date;
+	private String up_date;
+	private String content;
+	private String sts;
+	
+	public String getSts() {
+		return sts;
+	}
+	public void setSts(String sts) {
+		this.sts = sts;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public Integer getBno() {
 		return bno;
 	}
 	public void setBno(Integer bno) {
@@ -44,12 +66,6 @@ public class BoardDto {
 		this.up_date = up_date;
 	}
 
- private Integer  bno;
- private String  title;
- private String  writer;
- private int view_cnt ;
- private int comment_cnt;
- private String reg_date;
- private String up_date;
+
 	
 }
