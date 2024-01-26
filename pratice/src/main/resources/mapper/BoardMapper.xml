@@ -67,5 +67,10 @@
         	 WHERE BNO = #{bno}
     </update>
 
+    <delete id="deleteBoard" parameterType="com.pratice.dto.BoardDto">
+    		DELETE FROM BOARD
+    		 WHERE BNO = #{bno}
+    </delete>
+
 
 </mapper>
