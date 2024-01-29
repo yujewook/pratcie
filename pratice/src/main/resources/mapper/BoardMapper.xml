@@ -15,6 +15,19 @@
           FROM BOARD
          WHERE BNO =#{bno}
     </select>
+    
+    <select id="serach" resultType="com.pratice.dto.BoardDto">
+        SELECT bno
+         	 , TITLE
+         	 , WRITER
+         	 , CONTENT 
+         	 , VIEW_cnt
+         	 , COMMENT_cnt
+         	 , REG_DATE
+         	 , UP_DATE
+          FROM BOARD
+         WHERE BNO like {bno}
+    </select>
 	
 	<select id="countBoard" resultType="com.pratice.dto.BoardDto">
         SELECT count(bno) AS BNO
