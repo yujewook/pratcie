@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.cj.Session;
 import com.pratice.dto.BoardDto;
 import com.pratice.dto.PageHandler;
 @Repository
@@ -18,6 +19,13 @@ public class BoardDaoImple implements BoardDao {
     public BoardDto select (int bno) throws Exception {
     	return session.selectOne(namespace+"select",bno);
 	}
+    
+	@Override
+	public List<BoardDto> boardSearch(PageHandler page, BoardDto indto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+"search", indto);
+	}
+    
     
     @Override
     public int countBoard() throws Exception {
@@ -47,4 +55,12 @@ public class BoardDaoImple implements BoardDao {
 		System.out.println("dao bno" + indto.getBno());
 		return session.update(namespace+"updateBoard", indto);
 	}
+
+	@Override
+	public int deleteBoard(BoardDto indto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.update(namespace+"deleteBoard", indto);
+	}
+
+
 }
