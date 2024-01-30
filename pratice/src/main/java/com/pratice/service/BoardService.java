@@ -8,6 +8,8 @@ import com.pratice.dto.PageHandler;
 public interface BoardService {
 	public int count() throws Exception;
 	public List<BoardDto> boardList(PageHandler page) throws Exception;
+	public List<BoardDto> search (PageHandler page,BoardDto indto) throws Exception;
 	public BoardDto select(int bno) throws Exception;
 	public String CRUDBoard (BoardDto indto) throws Exception;
+
 }
