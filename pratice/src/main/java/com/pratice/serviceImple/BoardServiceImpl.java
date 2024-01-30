@@ -27,6 +27,14 @@ public class BoardServiceImpl implements BoardService {
 		return dao.boardList(page);
 	}
 	
+	@Override
+	public List<BoardDto> search(PageHandler page, BoardDto indto) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.boardSearch(page, indto);
+	}
+
+	
+	
 	
 	@Override
 	public BoardDto select(int bno) throws Exception {
@@ -45,11 +53,13 @@ public class BoardServiceImpl implements BoardService {
 		} else if(indto.getSts().equals("U")) {
 			System.out.println("update dao로 가기전");
 			dao.updateBoard(indto);
-		} else {
-
+		} else if(indto.getSts()!=null) {
+			dao.deleteBoard(indto);
 		}
 		return null;
 	}
+
+
 
 
 
