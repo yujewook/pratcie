@@ -36,18 +36,37 @@ public class BoardController {
 			
 			outDto = boardService.boardList(pageHandler);
 			
-			m.addAttribute("list", outDto);
+			m.addAttribute("boardDto", outDto);
 			m.addAttribute("ph", pageHandler);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
-		
 		return "boardList";
 	}
 	
+	@GetMapping("/search")
+	public String search (String keyword, Integer page , Integer pageSize , Model m, BoardDto indto ) {
+		List <BoardDto> outDto = null;
+		if (page==null) page=0; 
+		if (pageSize==null) pageSize=10; 
+		
+		try {
+			int totalCnt =  boardService.count();
+			PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize );
+			System.out.println("controller total" + pageHandler.getTotalCount());
+			System.out.println("keyword :: " + keyword);
+			indto.setBno(Integer.parseInt(keyword));
+			outDto = boardService.search(pageHandler, indto);
+			
+			m.addAttribute("boardDto", outDto);
+			m.addAttribute("ph", pageHandler);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "boardList";
+	}
 	
 	
 	@GetMapping("/select")
@@ -59,7 +78,7 @@ public class BoardController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		m.addAttribute("list", outDto);
+		m.addAttribute("boardDto", outDto);
 		m.addAttribute("page", page);
 		m.addAttribute("pageSize", pageSize);
 		System.out.println("조회 성공"+outDto.getTitle());
@@ -77,7 +96,8 @@ public class BoardController {
 	
 	@PostMapping("/write")
 	public String write(BoardDto inDto, Model m) {
-		System.out.println("컨트롤러"+inDto.getSts());
+		System.out.println("컨트롤러  sts  : "+inDto.getSts());
+		System.out.println("컨트롤러  sts  : "+inDto.getContent());
 		try {
 			 boardService.CRUDBoard(inDto);
 		} catch (Exception e) {
