@@ -190,7 +190,7 @@
 <div style="text-align:center">
   <div class="board-container">
     <div class="search-container">
-      <form action="<c:url value="/board/list"/>" class="search-form" method="get">
+      <form action="<c:url value="/board/search"/>" class="search-form" method="get">
         <select class="search-option" name="option">
           <option value="A" ${option=='A' ? "selected" : ""}>제목+내용</option>
           <option value="T" ${option=='T' ? "selected" : ""}>제목만</option>
