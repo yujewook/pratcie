@@ -18,7 +18,7 @@
          WHERE BNO =#{bno}
     </select>
     
-     <update id="updateViewCnt" parameterType="com.pratice.dto.BoardDto">
+     <update id="updateViewCnt" parameterType="int">
     		UPDATE BOARD
     		   SET VIEW_cnt = VIEW_cnt+1
         	 WHERE BNO = #{bno}
