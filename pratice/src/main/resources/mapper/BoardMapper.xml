@@ -8,7 +8,9 @@
          	 , TITLE
          	 , WRITER
          	 , CONTENT 
-         	 , VIEW_cnt
+         	 , CASE WHEN VIEW_cnt IS NULL THEN '0'
+         	   ELSE VIEW_CNT
+         	   END									as VIEW_CNT
          	 , COMMENT_cnt
          	 , REG_DATE
          	 , UP_DATE
@@ -16,17 +18,29 @@
          WHERE BNO =#{bno}
     </select>
     
-    <select id="serach" resultType="com.pratice.dto.BoardDto">
-        SELECT bno
-         	 , TITLE
-         	 , WRITER
-         	 , CONTENT 
-         	 , VIEW_cnt
-         	 , COMMENT_cnt
-         	 , REG_DATE
-         	 , UP_DATE
-          FROM BOARD
-         WHERE BNO like {bno}
+     <update id="updateViewCnt" parameterType="com.pratice.dto.BoardDto">
+    		UPDATE BOARD
+    		   SET VIEW_cnt = VIEW_cnt+1
+        	 WHERE BNO = #{bno}
+    </update>
+    
+    
+    <select id="search" resultType="com.pratice.dto.BoardDto">
+		SELECT bno
+		     , TITLE
+		     , WRITER
+		     , CONTENT 
+		     , CASE WHEN VIEW_cnt IS NULL THEN '0'
+         	   ELSE VIEW_CNT
+         	   END									as VIEW_CNT
+		     , COMMENT_CNT
+		     , REG_DATE
+		     , UP_DATE
+		FROM BOARD
+		WHERE 
+		    (#{option} = 'A' AND BNO LIKE #{bno})
+		    OR
+		    (#{option} = 'T' AND TITLE LIKE #{title})
     </select>
 	
 	<select id="countBoard" resultType="com.pratice.dto.BoardDto">
