@@ -17,12 +17,15 @@ public class BoardDaoImple implements BoardDao {
 	
     @Override
     public BoardDto select (int bno) throws Exception {
+    	session.update(namespace+"updateViewCnt", bno);
     	return session.selectOne(namespace+"select",bno);
 	}
+
+
     
 	@Override
 	public List<BoardDto> boardSearch(PageHandler page, BoardDto indto) throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("DAO 영역  TEXT"+indto.getOption());
 		return session.selectList(namespace+"search", indto);
 	}
     
@@ -61,6 +64,7 @@ public class BoardDaoImple implements BoardDao {
 		// TODO Auto-generated method stub
 		return session.update(namespace+"deleteBoard", indto);
 	}
+
 
 
 }
