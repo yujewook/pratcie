@@ -38,9 +38,9 @@
 		     , UP_DATE
 		FROM BOARD
 		WHERE 
-		    (#{option} = 'A' AND BNO LIKE #{bno})
+		    (#{option} = 'A' AND BNO LIKE CONCAT('%',#{bno},'%'))
 		    OR
-		    (#{option} = 'T' AND TITLE LIKE #{title})
+		    (#{option} = 'T' AND TITLE LIKE CONCAT('%',#{title},'%'))
     </select>
 	
 	<select id="countBoard" resultType="com.pratice.dto.BoardDto">
