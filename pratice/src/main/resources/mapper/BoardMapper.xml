@@ -14,15 +14,21 @@
          	 , A.COMMENT_cnt
          	 , A.REG_DATE
          	 , A.UP_DATE
-         	 , B.COMMENT							AS COMMENT
+          FROM BOARD A
+         WHERE A.BNO = #{bno}
+    </select>
+    
+    <select id="selectComment" resultType="com.pratice.dto.BoardCommentDto">
+        SELECT B.COMMENT							AS COMMENT
          	 , B.REG_DATE							AS COMMENT_REG_DATE
           FROM BOARD A
                LEFT JOIN COMMENT B ON A.BNO = B.BNO
          WHERE A.BNO = #{bno}
-           
     </select>
     
-     <update id="updateViewCnt" parameterType="int">
+    
+    
+    <update id="updateViewCnt" parameterType="int">
     		UPDATE BOARD
     		   SET VIEW_cnt = VIEW_cnt+1
         	 WHERE BNO = #{bno}
