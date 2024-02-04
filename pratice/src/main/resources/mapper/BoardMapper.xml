@@ -4,18 +4,22 @@
 
 <mapper namespace="com.pratice.dao.BoardMapper">
     <select id="select" resultType="com.pratice.dto.BoardDto">
-        SELECT bno
-         	 , TITLE
-         	 , WRITER
-         	 , CONTENT 
-         	 , CASE WHEN VIEW_cnt IS NULL THEN '0'
-         	   ELSE VIEW_CNT
+        SELECT A.bno
+         	 , A.TITLE
+         	 , A.WRITER
+         	 , A.CONTENT 
+         	 , CASE WHEN A.VIEW_cnt IS NULL THEN '0'
+         	   ELSE A.VIEW_CNT
          	   END									as VIEW_CNT
-         	 , COMMENT_cnt
-         	 , REG_DATE
-         	 , UP_DATE
-          FROM BOARD
-         WHERE BNO =#{bno}
+         	 , A.COMMENT_cnt
+         	 , A.REG_DATE
+         	 , A.UP_DATE
+         	 , B.COMMENT							AS COMMENT
+         	 , B.REG_DATE							AS COMMENT_REG_DATE
+          FROM BOARD A
+               LEFT JOIN COMMENT B ON A.BNO = B.BNO
+         WHERE A.BNO = #{bno}
+           
     </select>
     
      <update id="updateViewCnt" parameterType="int">
