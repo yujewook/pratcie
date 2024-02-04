@@ -1,12 +1,13 @@
 package com.pratice.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.mysql.cj.Session;
+import com.pratice.dto.BoardCommentDto;
 import com.pratice.dto.BoardDto;
 import com.pratice.dto.PageHandler;
 @Repository
@@ -17,8 +18,13 @@ public class BoardDaoImple implements BoardDao {
 	
     @Override
     public BoardDto select (int bno) throws Exception {
+    	BoardDto output = new BoardDto(); 
     	session.update(namespace+"updateViewCnt", bno);
-    	return session.selectOne(namespace+"select",bno);
+    	output = session.selectOne(namespace+"select",bno);
+    	List<BoardCommentDto> boardCommentList = session.selectList(namespace+"selectComment",bno);
+    	output.setComment(boardCommentList);
+    	
+    	return output;
 	}
 
 
