@@ -1,5 +1,7 @@
 package com.pratice.dto;
 
+import java.util.List;
+
 public class BoardDto {
 	private Integer  bno;
 	private String  title;
@@ -10,7 +12,24 @@ public class BoardDto {
 	private String up_date;
 	private String content;
 	private String sts;
+	private String option;
+	private List<BoardCommentDto> comment;
 	
+	public List<BoardCommentDto> getComment() {
+		return comment;
+	}
+	public void setComment(List<BoardCommentDto> comment) {
+		this.comment = comment;
+	}
+
+		
+	
+	public String getOption() {
+		return option;
+	}
+	public void setOption(String option) {
+		this.option = option;
+	}
 	public String getSts() {
 		return sts;
 	}
