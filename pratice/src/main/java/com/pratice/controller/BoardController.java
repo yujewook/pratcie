@@ -119,6 +119,8 @@ public class BoardController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			m.addAttribute("errorMessage", "작업을 수행하는 도중 오류가 발생하였습니다. 자세한 내용은 로그를 확인하세요.");
+			return "board"; 
 		}
 		
 		return "redirect:/board/list";
