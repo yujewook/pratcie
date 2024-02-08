@@ -19,7 +19,13 @@
       padding: 0;
       font-family: "Noto Sans KR", sans-serif;
     }
-
+	 
+	 .single-line {
+        white-space: nowrap;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    
     .container {
       width : 50%;
       margin : auto;
@@ -105,12 +111,38 @@
     <c:if test="${boardDto.bno != null}">
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="removeBtn" class="btn btn-remove"><i class="fa fa-trash"></i> 삭제</button>
+      <button type="button" id="commentNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 댓글 쓰기 </button>
     </c:if>
     <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
+	    <div id="newCommentSection" style="display: none;">
+	    		<textarea name="newComment" rows="1" placeholder="새로운 댓글을 입력하세요."></textarea>
+	    </div>
+	<c:if test="${boardDto.comment != null}">
+	  <h4 class="writing-header">게시판 댓글</h4>
+	  <c:forEach var="comment" items="${boardDto.comment}">
+	    <div class="single-line" class="comment-section">
+	      <textarea name="comment" rows="1" placeholder="새로운 댓글을 입력하세요." >${comment.comment}</textarea>
+	      <input type="text" name="comment_reg_Date" value="${comment.comment_reg_date}">
+	    </div>
+	  </c:forEach>
+	</c:if>
   </form>
 </div>
 <script>
+	let errorMessage = "${errorMessage}";
+	if(errorMessage) {
+	  alert(errorMessage);
+	}
   $(document).ready(function(){
+	  let form = $("#form");
+
+	if (form.find("comment-section").length === 0) {
+		  $(".writing-header").hide();
+	      $(".comment-section").hide();  // Hide the existing comment textarea and input
+	      $("#newCommentSection").hide(); // Hide the new comment textarea
+	    }
+	});
+  
     let formCheck = function() {
       let form = document.getElementById("form");
       if(form.title.value=="") {
@@ -128,7 +160,12 @@
     }
 
     $("#writeNewBtn").on("click", function(){
-      location.href="<c:url value='/board/write'/>";
+    	location.href="<c:url value='/board/write'/>";
+    	
+    });
+
+    $("#commentNewBtn").on("click", function(){
+    	 $("#newCommentSection").toggle();
     });
 
     $("#writeBtn").on("click", function(){
@@ -176,7 +213,6 @@
     $("#listBtn").on("click", function(){
       location.href="<c:url value='/board/list?page=${page}&pageSize=${pageSize}'/>";
     });
-  });
 </script>
 </body>
 </html>
