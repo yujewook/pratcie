@@ -15,6 +15,19 @@
          				 ELSE #{id}
          			END
     </select>
+    
+    
+    <select id="login" resultType="MemerInfoDto">
+        SELECT PWD
+       		 , NAME
+       		 , EMAIL
+       		 , BIRTH
+       		 , SNS 
+          FROM user_info
+         WHERE ID = #{id}
+         
+    </select>
+    
 
     <select id="selectHis" resultType="MemerInfoDto">
         SELECT COUNT(ID) AS ROWCNT
