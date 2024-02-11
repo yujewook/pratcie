@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ page session="true"%>
+
 <c:set var="loginId" value="${sessionScope.id}"/>
 <c:set var="loginOutLink" value="${loginId=='' ? '/login/login' : '/login/logout'}"/>
 <c:set var="loginOut" value="${loginId=='' ? 'Login' : 'ID='+=loginId}"/>
@@ -58,6 +59,48 @@
       outline-color: #e6e6e6;
     }
 
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border-top: 2px solid rgb(39, 39, 39);
+  }
+
+  th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f0f0f070;
+  }
+
+  th {
+    text-align: center;
+    color: black;
+  }
+
+  td {
+    text-align: center;
+    color: rgb(53, 53, 53);
+  }
+
+  td.title, td.writer {
+    text-align: left;
+  }
+
+  td.viewcnt {
+    text-align: right;
+  }
+
+  td.title:hover {
+    text-decoration: underline;
+  }
+  tr.single-line {
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+    
     .frm {
       width:100%;
     }
@@ -101,31 +144,37 @@
 	<input name="title" type="text" value="${boardDto.title}" placeholder="  제목을 입력해 주세요." ><br>
     <textarea name="content" rows="20" placeholder=" 내용을 입력해 주세요.">${boardDto.content}</textarea><br>
 
-
+	<button type="button" id="writeNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 새로운 글쓰기</button>
     <c:if test="${boardDto.bno == null}">
       <button type="button" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 등록</button>
     </c:if>
-    <c:if test="${boardDto.bno != null}">
-      <button type="button" id="writeNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 새로운 글쓰기</button>
-    </c:if>
-    <c:if test="${boardDto.bno != null}">
+    <c:if test="${sessionScope.id == boardDto.writer }">
       <button type="button" id="modifyBtn" class="btn btn-modify"><i class="fa fa-edit"></i> 수정</button>
       <button type="button" id="removeBtn" class="btn btn-remove"><i class="fa fa-trash"></i> 삭제</button>
-      <button type="button" id="commentNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 댓글 쓰기 </button>
     </c:if>
-    <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
-	    <div id="newCommentSection" style="display: none;">
-	    		<textarea name="newComment" rows="1" placeholder="새로운 댓글을 입력하세요."></textarea>
-	    </div>
-	<c:if test="${boardDto.comment != null}">
-	  <h4 class="writing-header">게시판 댓글</h4>
-	  <c:forEach var="comment" items="${boardDto.comment}">
-	    <div class="single-line" class="comment-section">
-	      <textarea name="comment" rows="1" placeholder="새로운 댓글을 입력하세요." >${comment.comment}</textarea>
-	      <input type="text" name="comment_reg_Date" value="${comment.comment_reg_date}">
-	    </div>
-	  </c:forEach>
+
+    <c:if test="${boardDto.bno != null}">
+    	<button type="button" id="commentNewBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 새로운 댓글 </button>
+        <div id="newCommentSection" style="display: none;">
+		    		<textarea name="newComment" rows="1" placeholder="새로운 댓글을 입력하세요."></textarea>
+		</div>
+        <c:if test="${boardDto.comment != null}">
+	        <h4 class="comment_head">게시판 댓글</h4>
+	        <table>
+		      <tr class="single-line comment-section">
+		        <th class="comment_head1">댓글</th>
+		        <th class="comment_head2">날짜</th>
+		      </tr>
+		      <c:forEach var="comment" items="${boardDto.comment}">
+				<tr class="single-line" class="comment-section">
+		          <td class="comment">${comment.comment}</td>
+		          <td class="date">${comment.comment_reg_date}</td>
+				</tr>
+		      </c:forEach>
+	    	</table>
+		</c:if>
 	</c:if>
+
   </form>
 </div>
 <script>
@@ -150,7 +199,6 @@
         form.title.focus();
         return false;
       }
-
       if(form.content.value=="") {
         alert("내용을 입력해 주세요.");
         form.content.focus();
@@ -160,7 +208,7 @@
     }
 
     $("#writeNewBtn").on("click", function(){
-    	location.href="<c:url value='/board/write'/>";
+    	location.href="<c:url value='/board/newwrite'/>";
     	
     });
 
@@ -179,32 +227,20 @@
     });
 
     $("#modifyBtn").on("click", function(){
-      let form = $("#form");
-      //let isReadonly = $("input[name=title]").attr('readonly');
-
-      // 1. 읽기 상태이면, 수정 상태로 변경
-      //if(isReadonly=='readonly') {
-      //  $(".writing-header").html("게시판 수정");
-      // $("input[name=title]").attr('readonly', false);
-      //  $("textarea").attr('readonly', false);
-      //  $("#modifyBtn").html("<i class='fa fa-pencil'></i> 등록");
-      //  return;
-     // }
-
-      // 2. 수정 상태이면, 수정된 내용을 서버로 전송
-      form.attr("action", "<c:url value='/board/write'/>");
-      form.attr("method", "post");
-      $("input[name='sts']").val("U");
-      if(formCheck())
-        form.submit();
-    });
+        let form = $("#form");
+        form.attr("action", "<c:url value='/board/write'/>");
+        form.attr("method", "POST");
+        $("input[name='sts']").val("U");
+        if(formCheck())
+          form.submit();
+      });
 
     $("#removeBtn").on("click", function(){
       if(!confirm("정말로 삭제하시겠습니까?")) return;
 
       let form = $("#form");
       form.attr("action", "<c:url value='/board/write'/>");
-      form.attr("method", "post");
+      form.attr("method", "POST");
       $("input[name='sts']").val("D");
 
       form.submit();
