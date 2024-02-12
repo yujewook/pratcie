@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pratice.dto.MemerInfoDto;
+import com.pratice.dto.SaveResultDto;
 import com.pratice.service.RegesiterService;
 
 @Controller
@@ -20,18 +21,25 @@ public class RegsiterController {
         return "registerForm"; // WEB-INF/views/registerForm.jsp
     }
     
+    
+    
     @PostMapping("/save")
     public String save(MemerInfoDto inDto , Model m) {
-        //서비스에 보내기
+    	SaveResultDto outDto = new SaveResultDto(); 
+    	//서비스에 보내기
     	try {
-			regesiter.regesiter(inDto);
+    		outDto = regesiter.regesiter(inDto);
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			m.addAttribute("errorMessage", e.getMessage());
+			
+			return "registerForm";
 		}
         
         // 모델에 MemerInfoDto 객체를 추가
-        m.addAttribute("memerInfoDto",inDto);
-        return "registerInfo"; // WEB-INF/views/registerInfo.jsp
+        //m.addAttribute("memerInfoDto",inDto);
+        //return "registerInfo"; // WEB-INF/views/registerInfo.jsp
+        return "loginForm";
     }
 }
