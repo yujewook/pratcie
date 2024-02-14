@@ -54,18 +54,8 @@
                 NULL
             </otherwise>
         </choose>
-        ,
-        <choose>
-            <when test="sns != null and sns.size() > 0">
-                <foreach collection="sns" item="snsItem" separator=",">
-                    #{snsItem}
-                </foreach>
-            </when>
-            <otherwise>
-                NULL
-            </otherwise>
-        </choose>
-         <![CDATA[
+        <![CDATA[
+        , #{sns}
         , NOW()
     )
     ]]>
