@@ -10,8 +10,16 @@ public class MemerInfoDto {
     private String email;
     private int rowCnt;
 	private String birth;
-	private String[] sns;
-    private String reg_date;
+	private String sns;
+    
+	public String getSns() {
+		return sns;
+	}
+
+	public void setSns(String sns) {
+		this.sns = sns;
+	}
+	private String reg_date;
 
     
     
@@ -58,13 +66,6 @@ public class MemerInfoDto {
 		this.birth = birth2;
 	}
 	
-    public String[] getSns() {
-		return sns;
-	}
-
-	public void setSns(String[] snsArray) {
-		this.sns = snsArray;
-	}
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
